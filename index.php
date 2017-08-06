@@ -6,8 +6,9 @@ error_reporting(E_ALL);
 define('ROOT',dirname(__FILE__));
 require_once (ROOT.'/config.php');
 require_once (ROOT.'/inc/dbConnect.php');
+require_once (ROOT.'/inc/Router.php');
 
-$users = $db->query('SELECT * FROM users');
-print_r($users);
+$router = new Router();
+$router->run();
 
 
