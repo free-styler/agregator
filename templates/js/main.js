@@ -2,17 +2,31 @@ ymaps.ready(init);
 
 function init () {
     var myMap = new ymaps.Map('map', {
-            center: [55.76, 37.64],
-            zoom: 10
+            center: [53.505234, 49.396548],
+            zoom: 12
         }, {
             searchControlProvider: 'yandex#search'
-        }),
+        })
+        // Создаем собственный макет с информацией о выбранном геообъекте.
+    var customItemContentLayout = ymaps.templateLayoutFactory.createClass(
+        // Флаг "raw" означает, что данные вставляют "как есть" без экранирования html.
+        '<h2 class=ballon_header>{{ properties.balloonContentHeader|raw }}</h2>' +
+        '<div class=ballon_body>{{ properties.balloonContentBody|raw }}</div>' +
+        '<div class=ballon_footer>{{ properties.balloonContentFooter|raw }}</div>'
+    );
+
         objectManager = new ymaps.ObjectManager({
             // Чтобы метки начали кластеризоваться, выставляем опцию.
             clusterize: true,
             // ObjectManager принимает те же опции, что и кластеризатор.
             gridSize: 32,
-            clusterDisableClickZoom: true
+            clusterDisableClickZoom: true,
+            clusterBalloonContentLayout: 'cluster#balloonAccordion',
+            // Устанавливаем собственный макет.
+            clusterBalloonItemContentLayout: customItemContentLayout,
+
+            clusterBalloonWidth: 300,
+            clusterBalloonHeight: 200
         });
 
     // Чтобы задать опции одиночным объектам и кластерам,

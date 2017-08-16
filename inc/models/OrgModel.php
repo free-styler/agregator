@@ -26,10 +26,13 @@ class OrgModel {
         foreach ($orgsArr as $org) {
             $featuresTmp = array();
             $featuresTmp = array('type'=>'Feature','id'=>$org['id'],'geometry'=>array('type'=>'Point','coordinates'=>array($org['width'],$org['length'])),
-                'properties'=>array('balloonContentHeader'=>'<font size=3><b><a target=\'_blank\'>'.$org['fullname'].'</a></b></font>',
-                                    'balloonContentBody'=>'<p>'.$org['descr'].'</p>',
+                /*'properties'=>array('balloonContentHeader'=>'',
+                                    'balloonContentBody'=>'<p>'.$org['fullname'].'</p><p>'.$org['descr'].'</p>',
                                     'balloonContentFooter'=>'<p>'.$org['mobile'].'</p>',
-                                    'hintContent'=>$org['fullname']));
+                                    'hintContent'=>$org['fullname'])*/
+                'properties'=>array('balloonContentHeader'=>$org['fullname'],'hintContent'=>$org['fullname'],
+                                    'balloonContent'=> $org['fullname'])
+            );
             $featuresArr[] = $featuresTmp;
 
         }

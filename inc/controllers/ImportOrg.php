@@ -38,7 +38,7 @@ class ImportOrg {
             $sharedStringsArr[] = (string)$item->t;
         }
 
-        $chunkSize = 100;
+        $chunkSize = 10;
         //$startRow = 2;
         $end = '';
 
@@ -116,7 +116,7 @@ class ImportOrg {
                     }
                     if ($rowNum == $allRows) {
                         $end = 'end';
-                        self::clearTmpDir(ROOT.'tmp/');
+                        self::clearTmpDir(ROOT.'/tmp');
                     }
 
                 }
@@ -129,7 +129,7 @@ class ImportOrg {
     public static function clearTmpDir($dir) {
         if ($objs = glob($dir."/*")) {
             foreach($objs as $obj) {
-                is_dir($obj) ? removeDirectory($obj) : unlink($obj);
+                is_dir($obj) ? rmdir($obj) : unlink($obj);
             }
         }
         self::clearTmpDir($dir);
