@@ -1,0 +1,58 @@
+<div class="nest">
+    <div class="title-alt">
+        <h6>Редактирование параметров пользователя</h6>
+    </div>
+    <div class="body-nest">
+        <form action="/adminpanel/[*url*]/save" method="post" class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Логин</label>
+                <div class="col-sm-6">
+                    <input type="text" name="login" value="[*login*]" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Пароль</label>
+                <div class="col-sm-6">
+                    <input type="text" name="password" value="" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Подтверждение пароля</label>
+                <div class="col-sm-6">
+                    <input type="text" name="pass-confirm" value="" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Имя</label>
+                <div class="col-sm-6">
+                    <input type="text" name="name" value="[*name*]" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Телефон</label>
+                <div class="col-sm-6">
+                    <input type="text" name="phone" value="[*phone*]" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Email</label>
+                <div class="col-sm-6">
+                    <input type="text" name="email" value="[*email*]" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Сайт</label>
+                <div class="col-sm-6">
+                    <input type="text" name="site" value="[*site*]" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Подтвержден</label>
+                <div class="col-sm-6">
+                    [*checked*] (<a href="/adminpanel/user/confirm">Подтвердить?</a>)
+                </div>
+            </div>
+            <p><input type="hidden" name="id" value="[*id*]"><button class="btn btn-info" type="submit">Сохранить</button></p>
+        </form>
+    </div>
+</div>

@@ -15,14 +15,15 @@ class Router {
     public function run() {
         $uri = $this->getURI();
         $uriArr = explode('/',$uri);
-        if (empty($uri)) {
-            include_once(ROOT.'/inc/controllers/IndexController.php');
-            $indexController = new IndexController();
-            $indexController->actionView();
-        }elseif (array_shift($uriArr) == 'adminpanel') {
+        if ($uriArr[0] == 'adminpanel') {
+            array_shift($uriArr);
             include_once(ROOT.'/inc/controllers/AdminpanelController.php');
             $adminpanelController = new AdminpanelController($uriArr);
             $adminpanelController->actionView();
+        }else {
+            include_once(ROOT.'/inc/controllers/IndexController.php');
+            $indexController = new IndexController($uriArr);
+            $indexController->actionView();
         }
     }
 

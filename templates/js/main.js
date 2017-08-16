@@ -22,7 +22,7 @@ function init () {
     myMap.geoObjects.add(objectManager);
 
     $.ajax({
-        url: "data.json"
+        url: "/organizations/json"
     }).done(function(data) {
         objectManager.add(data);
     });

@@ -6,27 +6,51 @@
     <title>Apricot v 1.3</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
-    <link rel="stylesheet" href="/templates/bootstrap.min.css">
-    <link rel="stylesheet" href="/templates/adminpanel/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/templates/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/templates/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/templates/adminpanel/css/main.css">
+    <script src="/templates/js/jquery.min.js"></script>
 </head>
 
 <body>
     <header>
         <div class="container-fluid">
-            <p>Вы вошли как: [*username*] (<a href="/adminpanel/logoff">Выйти</a>)</p>
+            <div class="row">
+                <div class="col-xs-2">
+                    <p class="logo">Агрегатор</p>
+                </div>
+                <div class="col-xs-10">
+                    <p class="user">Вы вошли как: [*username*] (<a href="/adminpanel/logoff">Выйти</a>)</p>
+                </div>
+            </div>
         </div>
     </header>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-xs-4">
-                <ul>
-                    <li><a href="/adminpanel/organizations">Организации</a></li>
-                    <li><a href="/adminpanel/organizations">Список</a></li>
-                    <li><a href="/adminpanel/organizations/import">Импорт</a></li>
+            <div class="col-xs-2">
+                <ul class="topnav menu-left">
+                    <li>
+                        <a><i class="fa fa-list fa-2x" aria-hidden="true"></i>Организации <i class="fa fa-arrow-down fa-2x" aria-hidden="true"></i></a>
+                        <ul>
+                            <li><a href="/adminpanel/organizations"><i class="fa fa-list fa-2x" aria-hidden="true"></i>Список</a></li>
+                            <li><a href="/adminpanel/organizations/import"><i class="fa fa-download fa-2x" aria-hidden="true"></i>Импорт</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="/adminpanel/users"><i class="fa fa-user fa-2x" aria-hidden="true"></i>Пользователи <i class="fa fa-arrow-down fa-2x" aria-hidden="true"></i></a>
+                        <ul>
+                            <li><a href="/adminpanel/users"><i class="fa fa-list fa-2x" aria-hidden="true"></i>Список</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
-            <div class="col-xs-8">
-                [*content*]
+            <div class="col-xs-10">
+                <div class="content bevel tlbr paper-wrap">
+                    [*content*]
+                    <div id="footer">
+                        <p class="copyright">Copyright</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

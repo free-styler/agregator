@@ -12,6 +12,10 @@ class IndexView extends Templates {
 	    return $this->output();
     }
 
+    public static function orgsView($orgsArr) {
+
+    }
+
 	/*function prepareTovarList($tovarArr,$zoneId,$kindId,$currenciesArr,$totalRows,$pagesCount) {
 		
 		$tovarData = '<div class="formcountposts">'.$this->prepareCountTovarByPage($pagesCount,$zoneId,$kindId).'</div>';

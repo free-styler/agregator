@@ -1,3 +1,62 @@
+html {
+    margin:0;
+    padding:0;
+}
+
+body {
+    background: url(../img/bg.jpg) no-repeat fixed;
+    background-size: 100%;
+}
+
+header {
+    width: 100%;
+    height: 45px;
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.1);
+}
+
+header .authblock {
+    float: right;
+    height: 45px;
+    width: 70px;
+    border-left: 1px solid #363749;
+    border-left: 1px solid rgba(0,0,0,.15);
+    -webkit-box-shadow: inset 1px 0 0 #4f5063;
+    -moz-box-shadow: inset 1px 0 0 #4f5063;
+    box-shadow: inset 1px 0 0 #4f5063;
+    -webkit-box-shadow: inset 1px 0 0 rgba(255,255,255,.08);
+    -moz-box-shadow: inset 1px 0 0 rgba(255,255,255,.08);
+    box-shadow: inset 1px 0 0 rgba(255,255,255,.08);
+    color: #a3a4ae;
+    color: rgba(234,235,242,.5);
+}
+
+header .authblock a {
+    line-height: 45px;
+    font-size: 16px;
+    text-decoration: none;
+    color: #a3a4ae;
+    color: rgba(234,235,242,.5);
+    -webkit-transition: color .3s ease-in-out;
+    -moz-transition: color .3s ease-in-out;
+    -o-transition: color .3s ease-in-out;
+    transition: color .3s ease-in-out;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+    -khtml-user-select: none;
+    float: right;
+}
+
+header .authblock a:hover {
+    color: #a3a4ae;
+    color: rgba(234,235,242,.7);
+}
+
+
+
 #map {
     height:100%;
     width: 100%;

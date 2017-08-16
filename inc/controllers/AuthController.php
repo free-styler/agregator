@@ -5,6 +5,7 @@
 		private $email;
 		private $loginId;
 		private $is_auth;
+		private $siteadmin;
 		
 		function __construct(){
 			$this->getSession();
@@ -21,11 +22,13 @@
 				$this->email = $_SESSION['email'];
 				$this->loginId = intval($_SESSION['loginId']);
 				$this->is_auth = $_SESSION['is_auth'];
+                $this->siteadmin = $_SESSION['siteadmin'];
 			}else {
 				$this->loginName = '';
 				$this->email = '';
 				$this->loginId = 0;
 				$this->is_auth = false;
+                $this->siteadmin = false;
 			}
 		}
 		
@@ -34,6 +37,7 @@
 			$_SESSION['email'] = $this->email;
 			$_SESSION['loginId'] = $this->loginId;
 			$_SESSION['is_auth'] = $this->is_auth;
+            $_SESSION['siteadmin'] = $this->siteadmin;
 		}
 		
 		function getLoginId() {
@@ -52,8 +56,12 @@
 			return $this->is_auth;
 		}
 
+		function getSiteAdmin() {
+		    return $this->siteadmin;
+        }
+
 		function getUserParams() {
-		    return array('id'=>$this->loginId,'login'=>$this->loginName,'email'=>$this->email);
+		    return array('id'=>$this->loginId,'login'=>$this->loginName,'email'=>$this->email,'siteadmin'=>$this->siteadmin);
         }
 		
 		function checkAuth($ulogin,$uPassword)
@@ -61,6 +69,7 @@
             $siteAdminParams = require_once(ROOT . '/siteadmin.php');
             if ($ulogin == $siteAdminParams['login']) {
                 $userParam = $siteAdminParams;
+                $this->siteadmin = true;
             } else {
                 require_once(ROOT . '/inc/models/AuthModel.php');
                 $userParam = AuthModel::getUserParam($ulogin);
@@ -81,6 +90,7 @@
 					$this->email = '';
 					$this->loginId = 0;
 					$this->is_auth = false;
+                    $this->siteadmin = false;
 					return false;
 				}
 				
@@ -92,6 +102,7 @@
 			$this->email = '';
 			$this->loginId = 0;
 			$this->is_auth = false;
+            $this->siteadmin = false;
 		}
 		
 	

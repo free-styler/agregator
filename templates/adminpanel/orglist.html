@@ -1,0 +1,64 @@
+<div class="row">
+    <div class="col-sm-12">
+        <div class="nest">
+            <div class="title-alt">
+                <h6>Список организаций <a href="/adminpanel/organizations/add" title="Добавить организацию"><i class="fa fa-plus fa-2x" aria-hidden="true"></i></a></h6>
+            </div>
+            <div class="body-nest">
+                <table class="table-striped footable-res footable metro-blue default footable-loaded">
+                    [*orgList*]
+                    <tfoot>
+                        <tr>
+                            <td colspan="8">
+                                <div class="pagination pagination-centered">
+                                    <ul>
+                                        [*pages*]
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- HTML-код модального окна -->
+<div id="myModalBox" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Заголовок модального окна -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Удаление организации</h4>
+            </div>
+            <!-- Основное содержимое модального окна -->
+            <div class="modal-body">
+                Вы действительно хотите удалить данную организацую?
+            </div>
+            <!-- Футер модального окна -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-primary">Удалить</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/templates/js/bootstrap.min.js"></script>
+<!-- Скрипт, вызывающий модальное окно после загрузки страницы -->
+<script>
+    var delurl = '';
+    $(document).ready(function() {
+        $('.delorg').on('click',function () {
+            delurl = $(this).attr('href');
+            $("#myModalBox").modal({
+                keyboard: true
+            });
+            return false;
+        })
+        $('#myModalBox .btn-primary').on('click',function () {
+            window.location = delurl;
+        })
+
+    });
+</script>
