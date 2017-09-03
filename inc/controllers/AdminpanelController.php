@@ -15,6 +15,22 @@ class AdminpanelController {
         //проверим авторизацию
         $authController = new AuthController();
         $userParams = $authController->getUserParams();
+
+        if (isset($this->uriArr[0]) && ($this->uriArr[0] == 'checkaccount') ) {
+            if (isset($this->uriArr[1])) {
+                require_once(ROOT . '/inc/models/UserModel.php');
+                $userData = UserModel::getUserByCheckkod($this->uriArr[1]);
+                if (!empty($userData)) {
+                    $userData['kod'] = '';
+                    $userData['checked'] = '1';
+                    UserModel::saveUser($userData);
+                    $authController->setChecked('1');
+                    Redirect::go('/adminpanel/login', 'Ваш аккаунт подтвержден!');
+                }else Redirect::go('/adminpanel/login', '');
+            }else Redirect::go('/adminpanel/login', '');
+        }
+
+
         if ($authController->getIsAuth()) {
             if (empty($this->uriArr)) {
                 //показываем главную страницу админки
@@ -85,6 +101,22 @@ class AdminpanelController {
                         }
                     }else echo $adminpanelView->adminView('indexUser', $userParams,$this->uriArr);
 
+                }elseif ($this->uriArr[0] == 'config') {
+                    if (isset($this->uriArr[1])) {
+                        if ($this->uriArr[1] == 'edit') {
+                            echo $adminpanelView->adminView('editConfig', $userParams,$this->uriArr);
+                        }elseif ($this->uriArr[1] == 'save') {
+                            ConfigModel::saveConfig($_POST);
+                            Redirect::go('/adminpanel/config/edit', '');
+                        }
+                    }else Redirect::go('/adminpanel/config/edit', '');
+
+                }elseif ($this->uriArr[0] == 'sendmailforcheck') {
+                    $kod = md5($userParams['email'].$userParams['login']);
+                    include_once(ROOT . "/inc/Mail.php");
+                    $configArr = ConfigModel::getConfig();
+                    NewMail::sendMail('admin@admin.ru', $userParams['email'], 'Успешная регистрация в системе', 'Спасибо за регистрацию в нашей системе! Пройдите по <a href="'.$configArr['siteurl'].'/adminpanel/checkaccount/' . $kod . '">ссылке</a> для подтвержления Вашего аккаунта.');
+                    Redirect::go('/adminpanel', 'Письмо для активации Вашего аккаунта успешно отправлено!');
                 }elseif ($this->uriArr[0] == 'user') {
                     require_once(ROOT . '/inc/models/UserModel.php');
 
@@ -104,19 +136,29 @@ class AdminpanelController {
             }
         }else {
             if (empty($this->uriArr)) {
-                Redirect::go('/adminpanel/login', 'Пожалуйста авторизируйтесь в системе!');
+                Redirect::go('/adminpanel/login', '');
             }else {
                 if ($this->uriArr[0] == 'login') {
                     if (!empty($_POST)) {
-                        if ($authController->checkAuth($_POST['login'], $_POST['pass'], 0))
+                        if ($authController->checkAuth($_POST['login'], $_POST['pass'], 0)) {
                             Redirect::go('/adminpanel', 'Добро пожаловать!');
+                        }else Redirect::go('/adminpanel/login', 'Ошибка авторизации!');
                     }
                     echo $adminpanelView->loginView();
+                    $_SESSION['message'] = '';
                 }elseif ($this->uriArr[0] == 'registration') {
                     if (!empty($_POST)) {
                         require_once(ROOT . '/inc/models/UserModel.php');
-                        UserModel::saveUser($_POST);
-                        Redirect::go('/adminpanel/login', 'Вы успешно зарегистрированы в системе! Войдите под своим логином и паролем.');
+                        $user = UserModel::getUserByName($_POST['login']);
+                        if (empty($user)) {
+                            $kod = md5($_POST['email'].$_POST['login']);
+                            $_POST['kod'] = $kod;
+                            $configArr = ConfigModel::getConfig();
+                            UserModel::saveUser($_POST);
+                            include_once(ROOT . "/inc/Mail.php");
+                            NewMail::sendMail('admin@admin.ru', $_POST['email'], 'Успешная регистрация в системе', 'Спасибо за регистрацию в нашей системе! Пройдите по <a href="'.$configArr['siteurl'].'/adminpanel/checkaccount/' . $kod . '">ссылке</a> для подтвержления Вашего аккаунта.');
+                            Redirect::go('/adminpanel/login', 'Вы успешно зарегистрированы в системе! Войдите под своим логином и паролем.');
+                        }else Redirect::go('/adminpanel/registration', 'Пользователь с таким именем уже существует!');
                     }
                     echo $adminpanelView->regView();
                 }

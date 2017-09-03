@@ -91,4 +91,58 @@ class OrgView extends Templates {
         $orgListView->replace('id','0');
         return $orgListView->output();
     }
+
+
+    public static function organizationView($orgArr) {
+        require_once(ROOT . '/inc/models/OrgModel.php');
+        $orgTemplate = new Templates(ROOT.'/templates/index/org.html');
+        $rating = OrgModel::getOrgRating($orgArr['id']);
+        $orgTemplate->replace('rating',OrgView::ratingStars($rating));
+        $orgTemplate->replace('rating-title','');
+        $orgTemplate->replace('title',$orgArr['name']);
+        $orgTemplate->replace('name',$orgArr['name']);
+        $orgTemplate->replace('descr',$orgArr['descr']);
+        $orgTemplate->replace('mobile',$orgArr['mobile']);
+        $orgTemplate->replace('site',(!empty($orgArr['site'])) ? $orgArr['site'] : '');
+        $orgTemplate->replace('address',(!empty($orgArr['address'])) ? '<b>Адрес:</b> '.$orgArr['address'] : '');
+        $orgTemplate->replace('metro',(!empty($orgArr['metro'])) ? '<b>Метро:</b> '.$orgArr['metro'] : '');
+        $orgTemplate->replace('grafik',(!empty($orgArr['grafik'])) ? '<b>График работы:</b> '.$orgArr['grafik'] : '');
+        $orgTemplate->replace('map',(!empty($orgArr['map'])) ? $orgArr['map'] : '');
+        $orgTemplate->replace('width',(!empty($orgArr['width'])) ? $orgArr['width'] : '');
+        $orgTemplate->replace('length',(!empty($orgArr['length'])) ? $orgArr['length'] : '');
+        $orgTemplate->replace('images',(!empty($orgArr['images'])) ? $orgArr['images'] : '');
+        return $orgTemplate->output();
+    }
+
+    public static function ratingStars($rating) {
+        $html = '<span class="star-item" data-pos="1"><span style="width: [*percent-1*]%;"></span></span>
+                <span class="star-item" data-pos="2"><span style="width: [*percent-2*]%;"></span></span>
+                <span class="star-item" data-pos="3"><span style="width: [*percent-3*]%;"></span></span>
+                <span class="star-item" data-pos="4"><span style="width: [*percent-4*]%;"></span></span>
+                <span class="star-item" data-pos="5"><span style="width: [*percent-5*]%;"></span></span>';
+
+        $part1 = floor($rating);
+        $part2 = $rating - floor($rating);
+
+        for ($i=1;$i<=5;$i++) {
+            if ($i <= $part1) $html = str_replace('[*percent-'.$i.'*]','100',$html);
+            else $html = str_replace('[*percent-'.$i.'*]',$part2*100,$html);
+        }
+
+        return $html;
+    }
+
+    public static function orgsIndexView($orgsArr) {
+        require_once(ROOT . '/inc/models/OrgModel.php');
+
+        $orgsHtml = '';
+        if (!empty($orgsArr)) {
+            foreach ($orgsArr as $org) {
+                $rating = OrgModel::getOrgRating($org['id']);
+                $starsHtml =  OrgView::ratingStars($rating);
+                $orgsHtml .= '<li><div class="org"><h2><a href="/org/'.$org['id'].'">'.$org['name'].'</h2></a><p class="rating">'.$starsHtml.'</p><p>'.$org['descr'].'</p><p>'.$org['mobile'].'</p></div></li>';
+            }
+        }
+        return $orgsHtml;
+    }
 }

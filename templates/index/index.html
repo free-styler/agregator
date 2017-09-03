@@ -1,7 +1,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Все организации г. Тольятти</title>
+    <title>[*title*]</title>
     <script src="//api-maps.yandex.ru/2.1/?lang=ru-RU" type="text/javascript"></script>
     <script src="//yandex.st/jquery/2.2.3/jquery.min.js" type="text/javascript"></script>
     <script src="/templates/js/main.js" type="text/javascript"></script>
@@ -13,7 +13,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-11">
-                    Лого
+                    <div class="logo">Агрегатор</div>
                 </div>
                 <div class="col-sm-1 authblock">
                     <a href="/adminpanel/">Вход</a>
@@ -21,10 +21,22 @@
             </div>
 
         </div>
-        <div class="container-fluid">Все организации Москвы</div>
     </header>
     <div class="container-fluid">
-        <div class="col-xs-4"></div>
+        <div class="col-xs-4">
+            <div class="descr-wrapper white-box">
+                <h1>[*descr-title*]</h1>
+                <p class="descr">[*descr*]</p>
+            </div>
+            <div class="search-wrapper white-box">
+                <form action="/search" method="post">
+                    <input type="text" name="search" value="" placeholder="Введите название организации"><input type="submit" name="submit" value="Найти">
+                </form>
+            </div>
+            <div class="orgsList white-box">
+                <ul>[*orgs*]</ul>
+            </div>
+        </div>
         <div class="col-xs-8">
             <div id="map"></div>
         </div>

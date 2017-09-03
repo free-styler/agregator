@@ -43,16 +43,21 @@ class OrgModel {
 
     public function getOrgs($pageNum,$count) {
         $totalRows = 0;
-        $orgArr = DB::getInstance()->selectPage($totalRows,'SELECT id,name,mobile,site,email,cats,dt FROM organizations ORDER BY id DESC LIMIT ?d, ?d',($pageNum-1)*$count, $count);
+        $orgArr = DB::getInstance()->selectPage($totalRows,'SELECT id,name,descr,mobile,site,email,cats,dt FROM organizations ORDER BY id DESC LIMIT ?d, ?d',($pageNum-1)*$count, $count);
         $pages = ceil($totalRows / $count);
         $this->totalPages = $pages;
         $this->totalRows = $totalRows;
         return $orgArr;
     }
 
-    public function getOrg($id) {
+    public static function getOrg($id) {
         $org = DB::getInstance()->selectRow('SELECT * FROM organizations WHERE id=?',$id);
         return $org;
+    }
+
+    public static function getOrgByName($name) {
+        $orgArr = DB::getInstance()->query('SELECT * FROM organizations WHERE name LIKE ?','%'.$name.'%');
+        return $orgArr;
     }
 
     public static function saveOrg($org) {
@@ -69,6 +74,19 @@ class OrgModel {
 
     public static function delOrg($id) {
         DB::getInstance()->query('DELETE FROM organizations WHERE id=?',$id);
+    }
+
+    public static function getOrgRating($idOrg) {
+        $rating = DB::getInstance()->selectCell('SELECT SUM(score)/COUNT(score) FROM rating WHERE idOrg=?',$idOrg);
+        return $rating;
+    }
+
+    public static function setOrgRating($idOrg,$rating,$ip) {
+        $id = DB::getInstance()->selectCell('SELECT id FROM rating WHERE idOrg=? and ip=?',$idOrg,$ip);
+        if (empty($id)) {
+            DB::getInstance()->query('INSERT INTO rating VALUES(null,?,?,?,"",now())', $idOrg, $ip, $rating);
+            return true;
+        }else return false;
     }
 
 }

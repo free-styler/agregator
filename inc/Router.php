@@ -20,6 +20,14 @@ class Router {
             include_once(ROOT.'/inc/controllers/AdminpanelController.php');
             $adminpanelController = new AdminpanelController($uriArr);
             $adminpanelController->actionView();
+        }elseif ($uriArr[0] == 'org') {
+            include_once(ROOT.'/inc/controllers/IndexController.php');
+            $indexController = new IndexController($uriArr);
+            $indexController->orgView();
+        }elseif ($uriArr[0] == 'search') {
+            include_once(ROOT.'/inc/controllers/IndexController.php');
+            $indexController = new IndexController($uriArr);
+            $indexController->orgView();
         }else {
             include_once(ROOT.'/inc/controllers/IndexController.php');
             $indexController = new IndexController($uriArr);

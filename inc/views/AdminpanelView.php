@@ -12,6 +12,7 @@ class AdminpanelView extends Templates {
 
     public function loginView() {
         $loginFormView = new Templates(ROOT.'/templates/adminpanel/loginform.html');
+        $loginFormView->replace('message',$_SESSION['message']);
         return $loginFormView->output();
     }
 
@@ -36,6 +37,13 @@ class AdminpanelView extends Templates {
         $this->replace('username',$userparams['login']);
         $pageActionName = $pageAction.'View';
         $this->replace('content',$this->$pageActionName());
+        if (($this->userParams['checked'] == 0) || (empty($this->userParams['checked']))) $this->replace('hide-confirm',''); else $this->replace('hide-confirm','hide');
+
+        if (!empty($_SESSION['message'])) {
+            $this->replace('message', $_SESSION['message']);
+            $_SESSION['message'] = '';
+            $this->replace('hide-message', '');
+        }else $this->replace('hide-message', 'hide');
         return $this->output();
     }
 
@@ -117,6 +125,19 @@ class AdminpanelView extends Templates {
         $user = $userObj->getUser($this->uriArr[1]);
         $user['url'] = $this->uriArr['0'].'/'.$this->uriArr['1'];
         return UserView::editUserView($user);
+    }
+
+    public function editConfigView() {
+        require_once (ROOT.'/inc/models/ConfigModel.php');
+        $configArr = ConfigModel::getConfig();
+        $configView = new Templates(ROOT.'/templates/adminpanel/configedit.html');
+        $configView->replace('index-title',(isset($configArr['index-title']) ? $configArr['index-title'] : ''));
+        $configView->replace('descr-title',(isset($configArr['descr-title']) ? $configArr['descr-title'] : ''));
+        $configView->replace('descr',(isset($configArr['descr-title']) ? $configArr['descr-title'] : ''));
+        $configView->replace('width',(isset($configArr['width']) ? $configArr['width'] : ''));
+        $configView->replace('length',(isset($configArr['length']) ? $configArr['length'] : ''));
+        $configView->replace('siteurl',(isset($configArr['siteurl']) ? $configArr['siteurl'] : ''));
+        return $configView->output();
     }
 
     public function addOrgView() {

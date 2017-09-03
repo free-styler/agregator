@@ -8,13 +8,24 @@ class IndexView extends Templates {
 		parent::__construct(ROOT.'/templates/index/index.html');
 	}
 
-	public function actionView() {
+	public function actionView($orgsArr) {
+        require_once(ROOT . '/inc/models/ConfigModel.php');
+        require_once(ROOT . '/inc/models/OrgModel.php');
+        require_once(ROOT . '/inc/views/OrgView.php');
+        $configData = ConfigModel::getConfig();
+
+	    $this->replace('descr-title',(isset($configData['descr-title']) ? $configData['descr-title'] : ''));
+        $this->replace('descr',(isset($configData['descr']) ? $configData['descr'] : ''));
+        $this->replace('title',(isset($configData['title']) ? $configData['title'] : ''));
+        $orgsHtml = OrgView::orgsIndexView($orgsArr);
+        $this->replace('orgs',$orgsHtml);
 	    return $this->output();
     }
 
     public static function orgsView($orgsArr) {
 
     }
+
 
 	/*function prepareTovarList($tovarArr,$zoneId,$kindId,$currenciesArr,$totalRows,$pagesCount) {
 		

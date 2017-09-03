@@ -1,0 +1,88 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>[*title*]</title>
+    <script src="//api-maps.yandex.ru/2.1/?lang=ru-RU" type="text/javascript"></script>
+    <script src="//yandex.st/jquery/2.2.3/jquery.min.js" type="text/javascript"></script>
+    <link href="/templates/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="/templates/css/org.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body>
+<div class="container org">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="gotohome"><a href="/"> << Вернуться на главную</a></div>
+            <h1>[*name*]</h1>
+            <div class="rating" title="[*rating-title*]">
+                [*rating*]
+            </div>
+            <p class="phone">[*mobile*]</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-5">
+            <div class="descr">
+                [*descr*]
+            </div>
+        </div>
+        <div class="col-xs-7">
+            <div class="gallery">[*images*]</div>
+            <p>[*address*]</p>
+            <p>[*metro*]</p>
+            <p><b>Сайт:</b> <a href="[*site*]" rel="nofollow" target="_blank">[*site*]</a></p>
+            <p>[*grafik*]</p>
+            <div id="map_org"></div>
+            <div class="owner"><a href="/adminpanel">Вы владелец?</a></div>
+        </div>
+    </div>
+</div>
+<script>
+    function init () {
+        var myMap = new ymaps.Map('map_org', {
+            center: [[*width*], [*length*]],
+            zoom: 14
+        },{
+            searchControlProvider: 'yandex#search'
+        })
+        myMap.geoObjects
+            .add(new ymaps.Placemark([[*width*], [*length*]], {
+                balloonContent: '[*name*]'
+            }, {
+                preset: 'islands#icon',
+                iconColor: '#0095b6'
+            }))
+    }
+
+
+    $(document).ready(function () {
+        ymaps.ready(init);
+
+        $('.rating .star-item').click(function(){
+            $.post(location.href+'/setrating',{star:$(this).attr('data-pos')},function(data){
+                if (data) alert('Ваша оценка учтена!');
+                else alert('Ошибка отпрвки оценки!');
+            });
+        });
+
+        var posArr = [];
+        $('.rating .star-item').hover(function () {
+            var dataPos= $(this).attr('data-pos');
+
+            $('.rating .star-item').each(function (key) {
+                posArr[$(this).attr('data-pos')] = $('span ',this).attr('style');
+                if ($(this).attr('data-pos') <= dataPos) $('span ',this).css('width','100%');
+                else $('span ',this).css('width','0%');
+            })
+            console.log(posArr);
+        },function() {
+            $('.rating .star-item').each(function () {
+                $('span ',this).attr('style',posArr[$(this).attr('data-pos')]);
+            })
+        })
+
+    })
+
+</script>
+</body>
+</html>

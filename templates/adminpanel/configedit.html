@@ -1,0 +1,41 @@
+<div class="nest config">
+    <div class="title-alt">
+        <h6>Редактирование параметров сайта</h6>
+    </div>
+    <div class="body-nest">
+        <form action="/adminpanel/config/save" method="post" class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Заголок главной страницы</label>
+                <div class="col-sm-6">
+                    <input type="text" name="index-title" value="[*index-title*]" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Заголок описания</label>
+                <div class="col-sm-6">
+                    <input type="text" name="descr-title" value="[*descr-title*]" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Описание</label>
+                <div class="col-sm-6">
+                    <textarea name="descr">[*descr*]</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Координаты центра карты</label>
+                <div class="col-sm-6">
+                    <input type="text" name="width" value="[*width*]" class="form-control">
+                    <input type="text" name="length" value="[*length*]" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Url сайта</label>
+                <div class="col-sm-6">
+                    <input type="text" name="siteurl" value="[*siteurl*]" class="form-control">
+                </div>
+            </div>
+            <p><input type="hidden" name="id" value="[*id*]"><button class="btn btn-info" type="submit">Сохранить</button></p>
+        </form>
+    </div>
+</div>

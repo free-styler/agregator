@@ -6,7 +6,7 @@ class AuthModel {
     }
 
     public static function getUserParam($ulogin) {
-       return $userParam =  DB::getInstance()->selectRow('SELECT id,name,password,email FROM users WHERE login=?',$ulogin);
+       return $userParam =  DB::getInstance()->selectRow('SELECT id,name,password,email,checked FROM users WHERE login=?',$ulogin);
     }
 
 }
