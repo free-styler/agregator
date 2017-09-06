@@ -41,9 +41,18 @@ class OrgModel {
         return json_encode($orgsJsonArr);
     }
 
-    public function getOrgs($pageNum,$count) {
+    public function getOrgs($pageNum,$count,$properties = array()) {
         $totalRows = 0;
-        $orgArr = DB::getInstance()->selectPage($totalRows,'SELECT id,name,descr,mobile,site,email,cats,dt FROM organizations ORDER BY id DESC LIMIT ?d, ?d',($pageNum-1)*$count, $count);
+        $mobile = '';
+        foreach ($properties as $key=>$prop) {
+            switch ($key) {
+                case 'mobile':
+                    $mobile = 'AND mobile <> ""';
+                    break;
+
+            }
+        }
+        $orgArr = DB::getInstance()->selectPage($totalRows,'SELECT id,name,descr,mobile,site,email,cats,dt FROM organizations WHERE 1=1 '.$mobile.' ORDER BY id DESC LIMIT ?d, ?d',($pageNum-1)*$count, $count);
         $pages = ceil($totalRows / $count);
         $this->totalPages = $pages;
         $this->totalRows = $totalRows;

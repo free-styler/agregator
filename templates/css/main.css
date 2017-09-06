@@ -6,12 +6,36 @@ html {
 body {
     background: url(../img/bg.jpg) no-repeat fixed;
     background-size: 100%;
+    font-family: 'Oxygen', sans-serif !important;
 }
 
 header {
     width: 100%;
     height: 45px;
-    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.1);
+    background: #405685;
+    margin-bottom: 10px;
+    border-bottom: solid 1px #6280a2;
+}
+
+header .logo {
+    font-size: 20px;
+    line-height: 45px;
+    color:#fff;
+}
+
+header .menublock ul {
+    line-height: 45px;
+}
+
+header .menublock ul li{
+    float: left;
+    margin: 0px 25px;
+    list-style: none;
+}
+
+header .menublock ul li a {
+    font-size: 20px;
+    color:#fff;
 }
 
 header .authblock {
@@ -34,8 +58,8 @@ header .authblock a {
     line-height: 45px;
     font-size: 16px;
     text-decoration: none;
-    color: #a3a4ae;
-    color: rgba(234,235,242,.5);
+    color: #fff;
+
     -webkit-transition: color .3s ease-in-out;
     -moz-transition: color .3s ease-in-out;
     -o-transition: color .3s ease-in-out;
@@ -80,6 +104,7 @@ header .authblock a:hover {
 .orgsList {
     width: 100%;
     padding: 0;
+    overflow: hidden;
 }
 
 .orgsList ul {
@@ -89,7 +114,7 @@ header .authblock a:hover {
 }
 
 .orgsList ul li{
-    padding: 10px;
+    padding: 0px;
     font-weight: 400;
     font-size: 15px;
     line-height: 18px;
@@ -106,6 +131,34 @@ header .authblock a:hover {
 .orgsList li:hover {
     background-color: #f7f8fb;
     border-left: 3px solid #1f3a56;
+}
+
+.orgsList > p {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.orgsList > p a {
+    margin: 10px 0;
+    width: 50%;
+    background: #607a9f;
+    color: #fff;
+    padding: 15px;
+}
+
+.orgsList > p a:hover {
+    background: #26375d;
+    text-decoration: none;
+}
+
+.org {
+    cursor: pointer;
+    min-height: 100px;
+    padding: 10px;
+}
+
+.org a {
+    text-decoration: none;
 }
 
 .rating {
@@ -170,4 +223,15 @@ header .authblock a:hover {
 
 .search-wrapper form {
     margin:10px;
+}
+
+.search-wrapper > p {
+    margin: 10px;
+}
+
+.search-wrapper > p input {
+    float: left;
+}
+.search-wrapper > p label {
+    margin-left: 5px;
 }

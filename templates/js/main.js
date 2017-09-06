@@ -42,3 +42,21 @@ function init () {
     });
 
 }
+
+$(document).ready(function(){
+    $('.nextpage').click(function(){
+        $.post($(this).attr('href'),{},function(data){
+            $('.orgsList ul').append(data);
+        });
+        return false;
+    });
+
+    $('.with-mobile').on('change',function () {
+        if ($(this).is(':checked')) $.post('/with-mobile',{},function (data) {
+            $('.orgsList ul').html(data);
+        })
+        else $.post('/without-mobile',{},function (data) {
+            $('.orgsList ul').html(data);
+        })
+    })
+})

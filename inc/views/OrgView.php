@@ -140,7 +140,7 @@ class OrgView extends Templates {
             foreach ($orgsArr as $org) {
                 $rating = OrgModel::getOrgRating($org['id']);
                 $starsHtml =  OrgView::ratingStars($rating);
-                $orgsHtml .= '<li><div class="org"><h2><a href="/org/'.$org['id'].'">'.$org['name'].'</h2></a><p class="rating">'.$starsHtml.'</p><p>'.$org['descr'].'</p><p>'.$org['mobile'].'</p></div></li>';
+                $orgsHtml .= '<li><div class="org"><a href="/org/'.$org['id'].'"><h2>'.$org['name'].'</h2><p class="rating">'.$starsHtml.'</p><p>'.$org['descr'].'</p><p>'.$org['mobile'].'</p></a></div></li>';
             }
         }
         return $orgsHtml;

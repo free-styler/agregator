@@ -28,6 +28,10 @@ class Router {
             include_once(ROOT.'/inc/controllers/IndexController.php');
             $indexController = new IndexController($uriArr);
             $indexController->orgView();
+        }elseif ($uriArr[0] == 'nextpage') {
+            include_once(ROOT.'/inc/controllers/IndexController.php');
+            $indexController = new IndexController($uriArr);
+            $indexController->actionView();
         }else {
             include_once(ROOT.'/inc/controllers/IndexController.php');
             $indexController = new IndexController($uriArr);

@@ -13,15 +13,38 @@ class IndexController {
     }
 
     public function actionView() {
+        $orgModelObj = new OrgModel();
         $indexView = new IndexView();
         if ($this->uriArr[0] == 'organizations') {
             if ($this->uriArr[1] == 'json') {
                 echo $orgsJson = OrgModel::getAllOrgsForJson();
                 die();
             }
+        }elseif ($this->uriArr[0] == 'next-page') {
+            $page = $_SESSION['pageOrg'];
+            $prop = array();
+            if (!empty($_SESSION['with-mobile'])) $prop['mobile'] = 1;
+            $page++;
+            $_SESSION['pageOrg'] = $page;
+            $orgsArr = $orgModelObj->getOrgs($page,7,$prop);
+            echo OrgView::orgsIndexView($orgsArr);
+            die();
+        }elseif ($this->uriArr[0] == 'with-mobile') {
+            $_SESSION['with-mobile'] = 1;
+            $orgsArr = $orgModelObj->getOrgs(1,7,array('mobile'=>1));
+            echo OrgView::orgsIndexView($orgsArr);
+            die();
+        }elseif ($this->uriArr[0] == 'without-mobile') {
+            $_SESSION['with-mobile'] = 0;
+            $_SESSION['pageOrg'] = 1;
+            $orgsArr = $orgModelObj->getOrgs(1,7);
+            echo OrgView::orgsIndexView($orgsArr);
+            die();
         }
-        $orgModelObj = new OrgModel();
-        $orgsArr = $orgModelObj->getOrgs(1,20);
+
+        $_SESSION['pageOrg'] = 1;
+        $_SESSION['with-mobile'] = 0;
+        $orgsArr = $orgModelObj->getOrgs(1,7);
         echo $indexView->actionView($orgsArr);
     }
 
