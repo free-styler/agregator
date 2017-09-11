@@ -36,12 +36,12 @@ class OrgView extends Templates {
         return $orgListView->output();
     }
 
-    public static function editOrgView($org) {
+    public static function editOrgView($org,$cats) {
         $orgListView = new Templates(ROOT.'/templates/adminpanel/orgedit.html');
         $orgListView->replace('name',$org['name']);
         $orgListView->replace('fullname',$org['fullname']);
         $orgListView->replace('descr',$org['descr']);
-        $orgListView->replace('cats',$org['cats']);
+        $orgListView->replace('cats',$cats);
         $orgListView->replace('address',$org['address']);
         $orgListView->replace('prim',$org['prim']);
         $orgListView->replace('mobile',$org['mobile']);

@@ -112,10 +112,12 @@ class AdminpanelView extends Templates {
 
     public function editOrgView() {
         require_once (ROOT.'/inc/views/OrgView.php');
+        require_once (ROOT.'/inc/views/CatsView.php');
         require_once (ROOT.'/inc/models/OrgModel.php');
         $orgObj = new OrgModel();
         $org = $orgObj->getOrg($this->uriArr[1]);
-        return OrgView::editOrgView($org);
+        $cats = CatsView::catsSelectListView($org['cats']);
+        return OrgView::editOrgView($org,$cats);
     }
 
     public function editUserView() {
@@ -155,6 +157,9 @@ class AdminpanelView extends Templates {
         return $importView->output();
     }
 
-
+    public function catsView() {
+        require_once (ROOT.'/inc/views/CatsView.php');
+        return CatsView::catsListView();
+    }
 
 }

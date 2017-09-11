@@ -45,16 +45,16 @@ class AdminpanelController {
                     if (isset($this->uriArr[1])) {
                         if ($this->uriArr[1] == 'import') {
                             if (!empty($_POST)) {
-                                require_once (ROOT.'/inc/controllers/ImportOrg.php');
+                                require_once(ROOT . '/inc/controllers/ImportOrg.php');
                                 if (!empty($_FILES)) {
                                     $impDirPath = ImportOrg::prepareXlsxFile($_FILES);
-                                    echo '{"path":"'.urlencode($impDirPath).'"}';
+                                    echo '{"path":"' . urlencode($impDirPath) . '"}';
                                 }
                                 if (!empty($_POST['getCount']) && !empty($_POST['path'])) {
                                     echo $countRows = ImportOrg::getCountRowsInXlsx(urldecode($_POST['path']));
                                 }
                                 if (!empty($_POST['startRow'])) {
-                                    $orgsArr = ImportOrg::importFromXlsx(urldecode($_POST['path']),$_POST['startRow'],$_POST['allRows']);
+                                    $orgsArr = ImportOrg::importFromXlsx(urldecode($_POST['path']), $_POST['startRow'], $_POST['allRows']);
                                 }
                                 if ($_POST['ajax'] == 1) die();
                             }
@@ -79,6 +79,23 @@ class AdminpanelController {
                         }
                     }else echo $adminpanelView->adminView('indexOrg', $userParams);
 
+                }elseif ($this->uriArr[0] == 'cats') {
+                    require_once(ROOT . '/inc/models/CatsModel.php');
+                    require_once(ROOT . '/inc/views/CatsView.php');
+                    if (!empty($this->uriArr[1]) && $this->uriArr[1] == 'add') {
+                        if (!empty($_POST)) {
+                            CatsModel::saveCat($_POST);
+                            echo CatsView::catsLastView();
+                            die();
+                        }
+                    }elseif (!empty($this->uriArr[1]) && $this->uriArr[1] == 'del') {
+                        if (!empty($_POST)) {
+                            CatsModel::delCat($_POST['id']);
+                            echo '1';
+                            die();
+                        }
+                    }
+                    echo $adminpanelView->adminView('cats', $userParams);
                 }elseif ($this->uriArr[0] == 'users') {
                     require_once(ROOT . '/inc/models/UserModel.php');
                     if (isset($this->uriArr[1])) {

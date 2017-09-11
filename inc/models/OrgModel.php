@@ -44,20 +44,41 @@ class OrgModel {
     public function getOrgs($pageNum,$count,$properties = array()) {
         $totalRows = 0;
         $mobile = '';
+        $razdel = '';
         foreach ($properties as $key=>$prop) {
             switch ($key) {
                 case 'mobile':
                     $mobile = 'AND mobile <> ""';
                     break;
-
+                case 'razdel':
+                    $razdel = ' AND idRazdel = '.intval($prop);
+                    break;
             }
         }
-        $orgArr = DB::getInstance()->selectPage($totalRows,'SELECT id,name,descr,mobile,site,email,cats,dt FROM organizations WHERE 1=1 '.$mobile.' ORDER BY id DESC LIMIT ?d, ?d',($pageNum-1)*$count, $count);
+        $orgArr = DB::getInstance()->selectPage($totalRows,'SELECT id,name,descr,mobile,site,email,cats,dt FROM organizations WHERE 1=1 '.$mobile.$razdel.' ORDER BY id DESC LIMIT ?d, ?d',($pageNum-1)*$count, $count);
+        if (!empty($orgArr)) {
+            foreach ($orgArr as $key=>$org) {
+                if (!empty($org['cats'])) {
+                    $catsArr = explode('|',$org['cats']);
+                    $catsNamesArr = DB::getInstance()->query('SELECT * FROM categories WHERE id IN (?a)',$catsArr);
+                    $catNameOut = '';
+                    if (!empty($catsNamesArr)) {
+                        foreach ($catsNamesArr as $catname) {
+                            $catNameOut .= $catname['name'] . ', ';
+                        }
+                        $catNameOut = substr($catNameOut, 0, -2);
+                    }
+                    $orgArr[$key]['cats'] = $catNameOut;
+                }
+            }
+        }
         $pages = ceil($totalRows / $count);
         $this->totalPages = $pages;
         $this->totalRows = $totalRows;
         return $orgArr;
     }
+
+
 
     public static function getOrg($id) {
         $org = DB::getInstance()->selectRow('SELECT * FROM organizations WHERE id=?',$id);
@@ -70,13 +91,17 @@ class OrgModel {
     }
 
     public static function saveOrg($org) {
+        $cats = '';
+        if (!empty($org['cats'])) {
+            $cats = join('|',$org['cats']);
+        }
         if ($org['id'] == 0) {
             DB::getInstance()->query('INSERT INTO organizations VALUES(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,now())',
-                $org['name'],$org['fullname'],$org['descr'],0,$org['cats'],'',$org['address'],$org['prim'],$org['mobile'],
+                $org['name'],$org['fullname'],$org['descr'],0,$cats,'',$org['address'],$org['prim'],$org['mobile'],
                 $org['phones'],$org['fax'],$org['site'],$org['email'],$org['width'],$org['length'],$org['facebook'],$org['instagram'],
                 $org['twitter'],$org['vk'],$org['grafik'],$org['yslugi'],$org['opisanie'],$org['metro'],$org['dometro']);
         }else DB::getInstance()->query('UPDATE organizations SET name=?, fullname=?, descr=?, cats=?, address=?, prim=?, mobile=?, phones=?, fax=?, site=?, email=?, width=?, length=?, facebook=?, instagram=?, twitter=?, vk=?, grafik=?, yslugi=?, opisanie=?, metro=?, dometro=? WHERE id=?',
-            $org['name'],$org['fullname'],$org['descr'],$org['cats'],$org['address'],$org['prim'],$org['mobile'],
+            $org['name'],$org['fullname'],$org['descr'],$cats,$org['address'],$org['prim'],$org['mobile'],
             $org['phones'],$org['fax'],$org['site'],$org['email'],$org['width'],$org['length'],$org['facebook'],$org['instagram'],
             $org['twitter'],$org['vk'],$org['grafik'],$org['yslugi'],$org['opisanie'],$org['metro'],$org['dometro'],$org['id']);
     }
